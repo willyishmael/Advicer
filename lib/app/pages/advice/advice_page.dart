@@ -1,5 +1,5 @@
 import 'package:advicer/app/core/services/theme_service.dart';
-import 'package:advicer/app/pages/advice/bloc/advice_bloc.dart';
+import 'package:advicer/app/pages/advice/cubit/advice_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
@@ -10,7 +10,7 @@ class AdvicePageProvider extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => AdviceBloc(),
+      create: (context) => AdviceCubit(),
       child: const AdvicePage(),
     );
   }
@@ -43,20 +43,20 @@ class AdvicePage extends StatelessWidget {
           children: [
             Expanded(
               child: Center(
-                child: BlocBuilder<AdviceBloc, AdviceState>(
+                child: BlocBuilder<AdviceCubit, AdviceCubitState>(
                   builder: (context, state) {
-                    if (state is AdviceInitialState) {
+                    if (state is AdviceCubitInitialState) {
                       return Text(
                         'Your Advice is waiting for you!',
                         style: theme.textTheme.headlineMedium,
                       );
-                    } else if (state is AdviceLoadingState) {
+                    } else if (state is AdviceCubitLoadingState) {
                       return CircularProgressIndicator(
                         color: theme.colorScheme.secondary,
                       );
-                    } else if (state is AdviceLoadedState) {
+                    } else if (state is AdviceCubitLoadedState) {
                       return Text(state.advice);
-                    } else if (state is AdviceErrorState) {
+                    } else if (state is AdviceCubitErrorState) {
                       return Text(state.message);
                     }
                     return const SizedBox();
@@ -68,8 +68,8 @@ class AdvicePage extends StatelessWidget {
               height: 200,
               child: Center(
                 child: ElevatedButton(
-                  onPressed: () => BlocProvider.of<AdviceBloc>(context)
-                      .add(AdviceRequestEvent()),
+                  onPressed: () => BlocProvider.of<AdviceCubit>(context)
+                      .adviceRequestEvent(),
                   child: const Text('Get Advice'),
                 ),
               ),
