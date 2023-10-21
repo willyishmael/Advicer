@@ -6,8 +6,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 part 'advice_state.dart';
 
 class AdviceCubit extends Cubit<AdviceCubitState> {
-  AdviceCubit() : super(AdviceCubitInitialState());
-  final AdvicerRepository advicerRepository = AdvicerRepository();
+  final AdvicerRepositoryProtocol advicerRepository;
+  AdviceCubit({required this.advicerRepository})
+      : super(AdviceCubitInitialState());
 
   void adviceRequestEvent() async {
     emit(AdviceCubitLoadingState());

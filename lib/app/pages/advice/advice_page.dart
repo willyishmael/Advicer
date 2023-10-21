@@ -1,5 +1,6 @@
 import 'package:advicer/app/core/services/theme_service.dart';
 import 'package:advicer/app/pages/advice/cubit/advice_cubit.dart';
+import 'package:advicer/injector.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
@@ -9,8 +10,9 @@ class AdvicePageProvider extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final injector = Injector();
     return BlocProvider(
-      create: (context) => AdviceCubit(),
+      create: (context) => injector.sl<AdviceCubit>(),
       child: const AdvicePage(),
     );
   }
